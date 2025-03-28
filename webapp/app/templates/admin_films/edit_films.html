@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-3">
+    <div class="text-center mb-3">
+        <h1 class="mb-4">Редактирование фильма</h1>
+    </div>
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('admin_films.update_film', film_id=film_record.id) }}">
+        <div class="row mb-4">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card shadow-sm border-1 border-danger">
+                    <div class="mb-3">
+                        <label for="poster">Постер</label>
+                        <input class="form-control" type="file" name="poster" id="poster">
+                    </div>
+                    <div class="mb-3 background-preview p-5 rounded d-flex align-items-center justify-content-center">
+                        <img src="{{ url_for('media', filename='images/' ~ film_record.uuid_poster ~ '.jpg') }}" class="img-fluid" alt="{{ film_record.name_film }}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label for="nameFilm" class="form-label">Название</label>
+                    <input class="form-control bg-color-red" id="nameFilm" name="nameFilm" value="{{ film_record.name_film }}">
+                </div>
+                <div class="mb-3">
+                    <label for="genre" class="form-label">Жанр</label>
+                    <select name="genre" id="genre" class="form-select">
+                        {% for genre in genres %}
+                          <option value="{{ genre.name_genre }}" {% if genre.name_genre == film_record.genre.name_genre %}selected{% endif %}>{{ genre.name_genre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="director" class="form-label">Режиссер</label>
+                    <input type="text" class="form-control bg-color-red" id="director" name="director" value="{{ film_record.director }}">
+                </div>
+                <h4 class="mt-4">Описание фильма</h4>
+                <textarea class="form-control" id="desc_film" name="desc_film" rows="5">{{ film_record.description }}</textarea>
+                <h3 class="mt-4">Кадры</h3>
+                <div class="row tech-cards text-center px-2">
+                    <div class="col-lg-6 col-sm-12 mb-3">
+                        <div class="mb-3">
+                            <label for="still1">Кадр 1</label>
+                            <input class="form-control" type="file" name="still1" id="still1">
+                        </div>
+                        <div class="mb-3 background-preview p-5 rounded d-flex align-items-center justify-content-center">
+                            <img id="still-img1" src="{{ url_for('media', filename='images/stills/' ~ film_record.stills[0].name_file ~ '.jpg') }}" 
+                            class="img-fluid img-still rounded border border-1 border-danger" 
+                            alt="{{ film_record.stills[0].name_file }}">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-sm-12 mb-3">
+                        <div class="mb-3">
+                            <label for="still2">Кадр 2</label>
+                            <input class="form-control" type="file" name="still2" id="still2">
+                        </div>
+                        <div class="mb-3 background-preview p-5 rounded d-flex align-items-center justify-content-center">
+                            <img id="still-img2" src="{{ url_for('media', filename='images/stills/' ~ film_record.stills[1].name_file ~ '.jpg') }}" 
+                            class="img-fluid img-still rounded border border-1 border-danger" 
+                            alt="{{ film_record.stills[1].name_file }}">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-sm-12 mb-3">
+                        <div class="mb-3">
+                            <label for="still3">Кадр 3</label>
+                            <input class="form-control" type="file" name="still3" id="still3">
+                        </div>
+                        <div class="mb-3 background-preview p-5 rounded d-flex align-items-center justify-content-center">
+                            <img id="still-img3" src="{{ url_for('media', filename='images/stills/' ~ film_record.stills[2].name_file ~ '.jpg') }}" 
+                            class="img-fluid img-still rounded border border-1 border-danger" 
+                            alt="{{ film_record.stills[2].name_file }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-color">Сохранить</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

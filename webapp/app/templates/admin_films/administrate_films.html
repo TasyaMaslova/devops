@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-3">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card-header text-center mb-3">
+        <h1> Все фильмы </h1>
+      </div>
+          <table class="table table-hover table-striped table-bordered">
+              <thead>
+                  <tr>
+                      <th> № </th>
+                      <th> Название </th>
+                      <th> Режиссер</th>
+                      <th> Жанр</th>
+                      <th> Описание </th>
+                      <th>  </th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for film in films %}
+                  <tr>
+                      <td> {{ loop.index }} </td>
+                      <td> {{ film.name_film }} </td>
+                      <td> {{ film.director }} </td>
+                      <td> {{ film.genre.name_genre }} </td>
+                      <td> {{ film.description }} </td>
+                      <td> 
+                          <a class="btn btn-color my-1" href="{{ url_for('admin_films.edit_films', id_film=film.id) }}">Изменить</a> 
+                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalFilm" data-film-id="{{ film.id }}">Удалить</button>
+                      </td> 
+                  </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+          <a href="{{ url_for('admin_films.add_film') }}" class="btn btn-color">Добавить фильм</a>
+          
+          <div class="modal fade" id="deleteModalFilm" tabindex="-1" aria-labelledby="deleteModalFilmLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModaFilmLabel">Удаление фильма</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Вы уверены, что хотите удалить данный фильм?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-color" data-bs-dismiss="modal">Отменить</button>
+                    <form method="post" id="deleteModalFilmForm">
+                      <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div> 
+      </div> 
+    </div>
+  </div>   
+  
+  {% from "pagination.html" import render_pagination %}
+  {{ render_pagination(pagination, 'admin_films.administrate_films') }}
+{% endblock %}

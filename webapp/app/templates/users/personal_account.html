@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-color text-center">
+          <h1>Личный кабинет</h1>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-3">
+              <label for="login" class="form-label">Логин</label>
+              <input type="text" class="form-control" id="login" name="login" value="{{ user_record.login }}" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Имя</label>
+              <input type="text" class="form-control" id="name" name="name" value="{{ user_record.name }}" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Фамилия</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" value="{{ user_record.lastname }}" readonly>
+            </div>
+          </form>
+          <div class="d-grid">
+            <a class="btn btn-color" href="{{ url_for('users.edit_user') }}">Редактировать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <div class="card-header text-center">
+          <h1>Отложенные фильмы</h1>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Название</th>
+                <th>Режиссер</th>
+                <th>Жанр</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record in film_record %}
+                <tr>
+                  <td>{{ loop.index }}</td>
+                  <td> {{ record.film.name_film }} </td>
+                  <td> {{ record.film.director }} </td>
+                  <td> {{ record.film.genre.name_genre }} </td>
+                  <td>
+                    <a class="btn btn-color my-1" href="{{ url_for('watch_film', id=record.id_film) }}">Посмотреть</a>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalWatchFilm" data-record-id="{{record.id}}">Удалить</button>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="deleteModalWatchFilm" tabindex="-1" aria-labelledby="deleteModalWatchFilmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="deleteModalWatchFilmLabel">Удаление отложенного фильма</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Вы уверены, что хотите убрать фильм из отложенных?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-color" data-bs-dismiss="modal">Отменить</button>
+              <form method="post" id="deleteModalWatchFilmForm">
+                <button type="submit" class="btn btn-danger">Убрать</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>         
+{% endblock %}

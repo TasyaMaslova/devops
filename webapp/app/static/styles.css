@@ -1,0 +1,39 @@
+body {
+    background-color: rgb(252, 229, 229);
+}
+main {
+    min-height: 85vh;
+}
+.img {
+    height: 450px;
+    object-fit: cover;
+}
+.form-select, .form-select option, .bg-color-red {
+    background-color: rgb(249, 240, 240);
+}
+.btn-color, .bg-color {
+    background-color: #daa5f3;
+}
+.btn-color:hover {
+    background-color: #ebbfff;
+    color: rgb(255, 226, 253);
+}
+.card-body {
+    background-color: #f7e7ff;
+}
+
+.active>.page-link {
+    background-color: #daa5f3;
+    border-color: red;
+}
+.film_card {
+    min-height: 65px;
+}
+.background-preview {
+    border: 3px dashed grey;
+    flex-grow: 1;
+}
+.img-still {
+    min-height: 190px;
+    object-fit: cover;
+}

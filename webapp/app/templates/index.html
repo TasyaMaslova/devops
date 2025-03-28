@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center fw-bold text-danger">Все категории</h1>
+<div class="container py-5">
+  <form action="{{ url_for('index') }}" class="row align-items-center g-3">
+    <div class="col">
+      <label for="name_genre" class="form-label">Выберите жанр фильма</label>
+      <div class="d-flex">
+        <select name="name_genre" id="name_genre" class="form-select border-2 border-danger rounded">
+            <option value="">Все жанры</option>
+            {% for genre in genres %}
+              <option value="{{ genre.name_genre }}" {% if genre.name_genre == name_genre %}selected{% endif %}>{{ genre.name_genre }}</option>
+            {% endfor %}
+        </select>
+      <button type="submit" class="btn btn-color w-25 border-2 border-danger rounded">Найти</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="row cards text-center px-2">
+  {% for film in films %}
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 py-2">
+      <div class="card shadow-sm border-1 border-danger">
+        <img src="{{ url_for('media', filename='images/' ~ film.uuid_poster ~ '.jpg') }}" class="img" alt="{{ film.name }}">
+        <div class="card-body border rounded">
+          <p class="card-title border border-danger rounded p-2 bg-color film_card ">
+            <a href="{{ url_for('watch_film', id=film.id) }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-dark">{{ film.name_film }}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% from "pagination.html" import render_pagination %}
+{{ render_pagination(pagination, 'index') }}
+{% endblock%}
