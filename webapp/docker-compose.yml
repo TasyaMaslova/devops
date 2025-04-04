@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: webapp-web
+    image: tasyamaslova/webapp-web:latest
     restart: always 
     ports:
       - "5000:5000"
@@ -12,7 +12,7 @@ services:
       - DATABASE_URL=mysql+mysqlconnector://root:1@db/films2
       
   db:
-    image: mysql2
+    image: tasyamaslova/mysql2:latest 
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 1
