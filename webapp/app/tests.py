@@ -1,14 +1,20 @@
-
+import os
 import pytest
 from models import db, Users, WatchedFilms, Genres, Films, Stills
-from app import create_app
+from app.app import create_app
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request, redirect, url_for
 
 
 @pytest.fixture
 def client():
-    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:'})
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+    'SECRET_KEY': b'afd41e94b269e053cc3f6d065a717cffde51ee5208928463ce897faed531006b',
+    'ADMIN_ROLE_ID': 1,
+    'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+    'SQLALCHEMY_ECHO': True,
+    'UPLOAD_FOLDER': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media', 'images')
+    })
     with app.app_context():
         db.create_all()
 
@@ -73,7 +79,13 @@ def client():
 
 @pytest.fixture
 def client2():
-    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:'})
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+    'SECRET_KEY': b'afd41e94b269e053cc3f6d065a717cffde51ee5208928463ce897faed531006b',
+    'ADMIN_ROLE_ID': 1,
+    'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+    'SQLALCHEMY_ECHO': True,
+    'UPLOAD_FOLDER': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media', 'images')
+    })
     with app.app_context():
         db.create_all()
         
