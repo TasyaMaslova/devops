@@ -8,7 +8,8 @@ from flask import Flask, render_template, request, redirect, url_for
 
 @pytest.fixture
 def client():
-    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:'})
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+    'SECRET_KEY': b'afd41e94b269e053cc3f6d065a717cffde51ee5208928463ce897faed531006b'})
     with app.app_context():
         db.create_all()
 
