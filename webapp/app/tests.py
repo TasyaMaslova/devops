@@ -1,4 +1,4 @@
-
+import os
 import pytest
 from models import db, Users, WatchedFilms, Genres, Films, Stills
 from app.app import create_app
