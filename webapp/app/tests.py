@@ -305,7 +305,7 @@ def test_auth_page_accessible(client2):
 
 # 19
 def test_auth_invalid(client):
-    response = client.post('/auth/login',  data={'login': 'fail_user', 'password': 'fail_pass' },
+    response = client.post('/auth/login',  data={'login': 'admin_user', 'password': 'fail_pass' },
                             follow_redirects=True)
     assert response.status_code == 200
     assert "Введены неверные логин и/или пароль" in response.data.decode('utf-8')
