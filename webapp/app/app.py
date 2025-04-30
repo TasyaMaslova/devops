@@ -41,7 +41,7 @@ def create_app(test_config=None):
 	    genres = db.session.query(Genres).all()
 	    query = db.session.query(Films)
 	    if name_genre:
-		query = query.join(Films.genre).filter(Genres.name_genre == name_genre)
+	        query = query.join(Films.genre).filter(Genres.name_genre == name_genre)
 	    pagination = db.paginate(query, per_page=12, page=page)
 	    films = pagination.items
 	    return render_template("index.html", films=films, genres=genres, pagination=pagination, name_genre=name_genre)
