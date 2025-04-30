@@ -1,7 +1,7 @@
 
 import pytest
 from models import db, Users, WatchedFilms, Genres, Films, Stills
-from app import create_app
+from app.app import create_app
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request, redirect, url_for
 
