@@ -22,11 +22,12 @@ def create_app(test_config=None):
 	app.register_blueprint(users_bp)
 
 	# application = app
-	app.config.from_pyfile('config.py')
 	
 	if test_config:
 		app.config.update(test_config)
 		app.config['WTF_CSRF_ENABLED'] = False
+	else:
+	    app.config.from_pyfile('config.py')
 
 	db.init_app(app)
 	# migrate = Migrate(app, db)
