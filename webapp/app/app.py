@@ -14,43 +14,53 @@ from zipfile import ZipFile
 
 from sqlalchemy.exc import SQLAlchemyError
 
-app = Flask(__name__)
-application = app
-app.config.from_pyfile('config.py')
+def create_app(test_config=None):
+	# app = Flask(__name__)
+	app = Flask(__name__, template_folder='templates')
+	app.register_blueprint(auth_bp)
+	app.register_blueprint(admin_films_bp)
+	app.register_blueprint(users_bp)
 
-db.init_app(app)
-migrate = Migrate(app, db)
+	# application = app
+	app.config.from_pyfile('config.py')
+	
+	if test_config:
+		app.config.update(test_config)
+		app.config['WTF_CSRF_ENABLED'] = False
 
-init_login_manager(app)
+	db.init_app(app)
+	# migrate = Migrate(app, db)
 
-app.register_blueprint(auth_bp)
-app.register_blueprint(admin_films_bp)
-app.register_blueprint(users_bp)
+	init_login_manager(app)
 
-# Загрузка главной страницы с фильмами
-@app.route('/')
-def index():
-    page = request.args.get('page', 1, type=int)
-    name_genre = request.args.get('name_genre', '')
-    genres = db.session.query(Genres).all()
-    query = db.session.query(Films)
-    if name_genre:
-        query = query.join(Films.genre).filter(Genres.name_genre == name_genre)
-    pagination = db.paginate(query, per_page=12, page=page)
-    films = pagination.items
-    return render_template("index.html", films=films, genres=genres, pagination=pagination, name_genre=name_genre)
+	# Загрузка главной страницы с фильмами
+	@app.route('/')
+	def index():
+	    page = request.args.get('page', 1, type=int)
+	    name_genre = request.args.get('name_genre', '')
+	    genres = db.session.query(Genres).all()
+	    query = db.session.query(Films)
+	    if name_genre:
+		query = query.join(Films.genre).filter(Genres.name_genre == name_genre)
+	    pagination = db.paginate(query, per_page=12, page=page)
+	    films = pagination.items
+	    return render_template("index.html", films=films, genres=genres, pagination=pagination, name_genre=name_genre)
 
-# Загрузка страницы с выбранным фильмом
-@app.route('/watch_film')
-def watch_film():
-    id_film = request.args.get('id', type=int)
-    film_record = db.get_or_404(Films, id_film)
-    return render_template("watch_film.html", film_record=film_record)
+	# Загрузка страницы с выбранным фильмом
+	@app.route('/watch_film')
+	def watch_film():
+	    id_film = request.args.get('id', type=int)
+	    film_record = db.get_or_404(Films, id_film)
+	    return render_template("watch_film.html", film_record=film_record)
 
-# Определение endpoint media
-@app.route('/media/<path:filename>')
-def media(filename):
-    return send_from_directory('media', filename)
+	# Определение endpoint media
+	@app.route('/media/<path:filename>')
+	def media(filename):
+	    return send_from_directory('media', filename)
+	    
+	return app
+
+app = create_app()
 
 # Добавление комментария
 @app.route('/add_comment/<int:id_film>', methods=['POST'])
