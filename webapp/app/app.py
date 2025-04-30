@@ -100,7 +100,8 @@ def create_app(test_config=None):
 		try:
 			watched_film = db.session.query(WatchedFilms).filter_by(id_film=id_film, id_user=current_user.id).first()
 			if watched_film:
-			    flash('Вы уже добавили этот фильм в список "Буду смотреть".', 'warning')		else:
+			    flash('Вы уже добавили этот фильм в список "Буду смотреть".', 'warning')
+			else:
 				new_watched_film = WatchedFilms(id_film=id_film, id_user=current_user.id)
 				db.session.add(new_watched_film)
 				db.session.commit()
