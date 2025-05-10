@@ -7,7 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Text, MetaData
 from extensions import db
-db.Model.metadata.clear()
 
 class Genres(db.Model):
    __tablename__ = 'genres'
