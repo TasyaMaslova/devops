@@ -7,26 +7,17 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Text, MetaData
+from extensions import db
 
-class Base(DeclarativeBase):
-  metadata = MetaData(naming_convention={
-        "ix": 'ix_%(column_0_label)s',
-        "uq": "uq_%(table_name)s_%(column_0_name)s",
-        "ck": "ck_%(table_name)s_%(constraint_name)s",
-        "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-        "pk": "pk_%(table_name)s"
-    })
 
-db = SQLAlchemy(model_class=Base)
-
-class Genres(Base):
+class Genres(db.Model):
    __tablename__ = 'genres'
    id: Mapped[int] = mapped_column(primary_key=True)
    name_genre: Mapped[str] = mapped_column(String(128))
 
    films: Mapped[list["Films"]] = relationship(back_populates="genre")
 
-class Users(Base,  UserMixin):
+class Users(db.Model,  UserMixin):
    __tablename__ = 'users'
    id: Mapped[int] = mapped_column(primary_key=True)
    name: Mapped[str] = mapped_column(String(128))
@@ -49,7 +40,7 @@ class Users(Base,  UserMixin):
    def check_password(self, password):
       return check_password_hash(self.password_hash, password)
 
-class Films(Base):
+class Films(db.Model):
    __tablename__ = 'films'
    id: Mapped[int] = mapped_column(primary_key=True)
    name_film: Mapped[str] = mapped_column(String(128))
@@ -63,7 +54,7 @@ class Films(Base):
    comments: Mapped[list["Comments"]] = relationship(back_populates="film")
    watched_by_users: Mapped[list["WatchedFilms"]] = relationship(back_populates="film")
 
-class WatchedFilms(Base):
+class WatchedFilms(db.Model):
    __tablename__ = 'watched_films'
    id: Mapped[int] = mapped_column(primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
@@ -72,7 +63,7 @@ class WatchedFilms(Base):
    user: Mapped["Users"] = relationship(back_populates="watched_films")
    film: Mapped["Films"] = relationship(back_populates="watched_by_users")
 
-class Comments(Base):
+class Comments(db.Model):
    __tablename__ = 'comments'
    id: Mapped[int] = mapped_column(primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
@@ -85,7 +76,7 @@ class Comments(Base):
    replies: Mapped[List["Comments"]] = relationship("Comments", back_populates="parent", cascade="all, delete-orphan")
    parent: Mapped[Optional["Comments"]] = relationship("Comments", back_populates="replies", remote_side=[id])
 
-class Stills(Base):
+class Stills(db.Model):
    __tablename__ = 'stills'
    id: Mapped[str] = mapped_column(String(64), primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
@@ -93,7 +84,7 @@ class Stills(Base):
 
    film: Mapped["Films"] = relationship(back_populates="stills")
 
-class Roles(Base):
+class Roles(db.Model):
    __tablename__ = 'roles'
    id: Mapped[int] = mapped_column(primary_key=True)
    name_role: Mapped[int] = mapped_column(String(128))
