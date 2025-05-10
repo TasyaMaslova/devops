@@ -1,2 +1,2 @@
-from app import create_app
+from app.app import create_app
 __all__ = ['create_app']
