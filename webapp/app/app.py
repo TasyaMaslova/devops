@@ -4,8 +4,9 @@ from flask_login import current_user, login_required
 from flask_migrate import Migrate
 from sqlalchemy.exc import SQLAlchemyError
 from flask_migrate import Migrate
-from models import db, Films, Genres,Comments, WatchedFilms, Users 
 from auth import bp as auth_bp, init_login_manager
+from models import db, Films, Genres,Comments, WatchedFilms, Users 
+#from auth import bp as auth_bp, init_login_manager
 from admin_films import bp as admin_films_bp
 from users import bp as users_bp
 import os
