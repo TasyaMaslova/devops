@@ -10,6 +10,7 @@ from admin_films import bp as admin_films_bp
 from users import bp as users_bp
 import os
 from zipfile import ZipFile
+from prometheus_flask_exporter import PrometheusMetrics
 
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -31,6 +32,9 @@ def create_app(test_config=None):
 
 	db.init_app(app)
 	# migrate = Migrate(app, db)
+	
+	metrics = PrometheusMetrics(app)
+	metrics.info('app_info', 'Киносервис', version='1.0.0')
 
 	init_login_manager(app)
 
