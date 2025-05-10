@@ -1,10 +1,10 @@
 import os
 import pytest
-from app.app import create_app
+from app import create_app
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request, redirect, url_for
 from extensions import db
-from app.models import Users, WatchedFilms, Genres, Films, Stills
+from models import Users, WatchedFilms, Genres, Films, Stills
 
 
 @pytest.fixture
