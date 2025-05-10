@@ -2,7 +2,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 from flask_login import current_user, login_required
 from flask_migrate import Migrate
-from sqlalchemy.exc import SQLAlchemyError
 from flask_migrate import Migrate
 from auth import bp as auth_bp, init_login_manager
 from admin_films import bp as admin_films_bp
