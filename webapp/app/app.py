@@ -15,9 +15,6 @@ from prometheus_flask_exporter import PrometheusMetrics
 
 from sqlalchemy.exc import SQLAlchemyError
 
-metrics = PrometheusMetrics()
-metrics.info('app_info', 'Киносервис', version='1.0.0')
-
 def create_app(test_config=None):
 	# app = Flask(__name__)
 	app = Flask(__name__, template_folder='templates')
@@ -35,10 +32,12 @@ def create_app(test_config=None):
 
 	db.init_app(app)
 	# migrate = Migrate(app, db)
-	metrics.init_app(app)	
+	
+	if not app.testing:
+	    metrics = PrometheusMetrics(app)
+	    metrics.info('app_info', 'Киносервис', version='1.0.0')
 
 	init_login_manager(app)
-	
 
 	# Загрузка главной страницы с фильмами
 	@app.route('/')
