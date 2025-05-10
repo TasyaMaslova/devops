@@ -5,7 +5,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request, redirect, url_for
 from extensions import db
 from app.models import Users, WatchedFilms, Genres, Films, Stills
-db.Model.metadata.clear()
 
 
 @pytest.fixture
@@ -17,7 +16,6 @@ def client():
     'UPLOAD_FOLDER': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media', 'images')
     })
     with app.app_context():
-        db.metadata.clear()
         db.create_all()
 
         admin_user = Users(
@@ -89,7 +87,6 @@ def client2():
     'UPLOAD_FOLDER': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media', 'images')
     })
     with app.app_context():
-        db.metadata.clear()
         db.create_all()
         
         yield app.test_client()

@@ -20,6 +20,7 @@ class Genres(db.Model):
 
 class Users(db.Model,  UserMixin):
    __tablename__ = 'users'
+   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name: Mapped[str] = mapped_column(String(128))
    lastname: Mapped[str] = mapped_column(String(128))
@@ -43,6 +44,7 @@ class Users(db.Model,  UserMixin):
 
 class Films(db.Model):
    __tablename__ = 'films'
+   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name_film: Mapped[str] = mapped_column(String(128))
    director: Mapped[str] = mapped_column(String(128))
@@ -57,6 +59,7 @@ class Films(db.Model):
 
 class WatchedFilms(db.Model):
    __tablename__ = 'watched_films'
+   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
    id_user: Mapped[int] = mapped_column(ForeignKey('users.id'))
@@ -66,6 +69,7 @@ class WatchedFilms(db.Model):
 
 class Comments(db.Model):
    __tablename__ = 'comments'
+   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
    id_user: Mapped[int] = mapped_column(ForeignKey('users.id'))
@@ -79,6 +83,7 @@ class Comments(db.Model):
 
 class Stills(db.Model):
    __tablename__ = 'stills'
+   __table_args__ = {'extend_existing': True}
    id: Mapped[str] = mapped_column(String(64), primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
    name_file: Mapped[str] = mapped_column(String(128))
@@ -87,6 +92,7 @@ class Stills(db.Model):
 
 class Roles(db.Model):
    __tablename__ = 'roles'
+   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name_role: Mapped[int] = mapped_column(String(128))
 
