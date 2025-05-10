@@ -15,7 +15,7 @@ COPY . /app
 
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV PYTHONPATH=.
+ENV PYTHONPATH=/app
 
 # Команда для запуска приложения
 CMD ["flask", "run"] 
