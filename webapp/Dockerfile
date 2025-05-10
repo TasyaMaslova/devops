@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копирование кода приложения
 COPY . /app
 
-ENV FLASK_APP=app/app.py
+ENV FLASK_APP=app.py
 
 # Команда для запуска приложения
 CMD ["flask", "run", "--host=0.0.0.0"] 
