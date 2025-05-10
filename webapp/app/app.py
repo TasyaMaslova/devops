@@ -5,8 +5,6 @@ from flask_migrate import Migrate
 from sqlalchemy.exc import SQLAlchemyError
 from flask_migrate import Migrate
 from auth import bp as auth_bp, init_login_manager
-from models import Films, Genres,Comments, WatchedFilms, Users 
-#from auth import bp as auth_bp, init_login_manager
 from admin_films import bp as admin_films_bp
 from users import bp as users_bp
 import os
@@ -14,6 +12,7 @@ from zipfile import ZipFile
 from prometheus_flask_exporter import PrometheusMetrics
 from sqlalchemy.exc import SQLAlchemyError
 from extensions import db
+from models import Films, Genres,Comments, WatchedFilms, Users 
 
 def create_app(test_config=None):
 	# app = Flask(__name__)
