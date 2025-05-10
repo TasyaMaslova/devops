@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копирование кода приложения
-COPY ./app /app
+COPY ./app .
 
 # Команда для запуска приложения
-CMD ["flask", "run", "--host=0.0.0.0", "--app=app.app"] 
+CMD ["flask", "run", "--host=0.0.0.0"] 

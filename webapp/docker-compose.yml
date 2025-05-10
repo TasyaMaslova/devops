@@ -10,7 +10,6 @@ services:
       - db
     environment:
       - DATABASE_URL=mysql+mysqlconnector://root:1@db/films2
-      - FLASK_APP=app.app
       
   db:
     image: tasyamaslova/mysql2:latest 

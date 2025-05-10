@@ -11,8 +11,6 @@ from users import bp as users_bp
 import os
 from zipfile import ZipFile
 from prometheus_flask_exporter import PrometheusMetrics
-
-
 from sqlalchemy.exc import SQLAlchemyError
 
 def create_app(test_config=None):
@@ -121,6 +119,6 @@ def create_app(test_config=None):
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True)
+    app.run(debug=False)
 
 
