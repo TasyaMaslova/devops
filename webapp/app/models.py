@@ -12,6 +12,7 @@ from extensions import db
 
 class Genres(db.Model):
    __tablename__ = 'genres'
+   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name_genre: Mapped[str] = mapped_column(String(128))
 
