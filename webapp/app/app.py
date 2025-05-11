@@ -5,9 +5,9 @@ from flask_migrate import Migrate
 from sqlalchemy.exc import SQLAlchemyError
 from flask_migrate import Migrate
 from app.models import db, Films, Genres,Comments, WatchedFilms, Users 
-from auth import bp as auth_bp, init_login_manager
-from admin_films import bp as admin_films_bp
-from users import bp as users_bp
+from app.auth import bp as auth_bp, init_login_manager
+from app.admin_films import bp as admin_films_bp
+from app.users import bp as users_bp
 import os
 from zipfile import ZipFile
 from prometheus_flask_exporter import PrometheusMetrics
