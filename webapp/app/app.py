@@ -33,7 +33,6 @@ def create_app(test_config=None):
 	
 	
 	metrics = PrometheusMetrics(app)
-	metrics.info('app_info', 'Киносервис', version='1.0.0')
 
 	init_login_manager(app)
 
