@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import  login_required
 from sqlalchemy.exc import SQLAlchemyError
-from auth import admin_required
-from models import db, Films, Genres, Stills, Users, Comments 
+from app.auth import admin_required
+from app.models import db, Films, Genres, Stills, Users, Comments 
 import os
 from werkzeug.utils import secure_filename
 from uuid import uuid4
