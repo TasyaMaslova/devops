@@ -11,7 +11,7 @@ from app.users import bp as users_bp
 import os
 from zipfile import ZipFile
 from prometheus_flask_exporter import PrometheusMetrics
-
+os.environ['DEBUG_METRICS'] = '1'
 
 def create_app(test_config=None):
 	# app = Flask(__name__)
@@ -33,8 +33,6 @@ def create_app(test_config=None):
 	db.init_app(app)
 	# migrate = Migrate(app, db)
 	
-	
-	#metrics = PrometheusMetrics(app, path='/metrics')
 
 	init_login_manager(app)
 
