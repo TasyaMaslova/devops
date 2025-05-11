@@ -31,9 +31,9 @@ def create_app(test_config=None):
 	db.init_app(app)
 	# migrate = Migrate(app, db)
 	
-	if not app.testing:
-	    metrics = PrometheusMetrics(app)
-	    metrics.info('app_info', 'Киносервис', version='1.0.0')
+	
+	metrics = PrometheusMetrics(app)
+	metrics.info('app_info', 'Киносервис', version='1.0.0')
 
 	init_login_manager(app)
 
