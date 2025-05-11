@@ -11,7 +11,7 @@ from zipfile import ZipFile
 from prometheus_flask_exporter import PrometheusMetrics
 from sqlalchemy.exc import SQLAlchemyError
 from extensions import db
-from models import Films, Genres,Comments, WatchedFilms, Users 
+from . import Films, Genres,Comments, WatchedFilms, Users 
 
 def create_app(test_config=None):
 	# app = Flask(__name__)
