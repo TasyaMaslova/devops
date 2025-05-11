@@ -17,7 +17,7 @@ def create_app(test_config=None):
 	# app = Flask(__name__)
 	app = Flask(__name__, template_folder='templates')
 	
-	metrics = PrometheusMetrics(app, path='/metrics', export_defaults=True)
+	metrics = PrometheusMetrics(app, path='/metrics', export_defaults=True, group_by='endpoint', buckets=(0.1, 0.5, 1, 5, 10))
 	app.register_blueprint(auth_bp)
 	app.register_blueprint(admin_films_bp)
 	app.register_blueprint(users_bp)
