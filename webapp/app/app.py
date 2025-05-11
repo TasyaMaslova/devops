@@ -2,16 +2,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 from flask_login import current_user, login_required
 from flask_migrate import Migrate
+from sqlalchemy.exc import SQLAlchemyError
 from flask_migrate import Migrate
+from models import db, Films, Genres,Comments, WatchedFilms, Users 
 from auth import bp as auth_bp, init_login_manager
 from admin_films import bp as admin_films_bp
 from users import bp as users_bp
 import os
 from zipfile import ZipFile
 from prometheus_flask_exporter import PrometheusMetrics
-from sqlalchemy.exc import SQLAlchemyError
-from extensions import db
-#from . import Films, Genres,Comments, WatchedFilms, Users 
+
 
 def create_app(test_config=None):
 	# app = Flask(__name__)
@@ -30,8 +30,8 @@ def create_app(test_config=None):
 
 	db.init_app(app)
 	# migrate = Migrate(app, db)
-	
-	if not app.testing:
+
+    if not app.testing:
 	    metrics = PrometheusMetrics(app)
 	    metrics.info('app_info', 'Киносервис', version='1.0.0')
 

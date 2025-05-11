@@ -1,10 +1,9 @@
 import os
 import pytest
+from models import db, Users, WatchedFilms, Genres, Films, Stills
 from app.app import create_app
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request, redirect, url_for
-from extensions import db
-#from models import Users, WatchedFilms, Genres, Films, Stills
 
 
 @pytest.fixture
@@ -13,6 +12,7 @@ def client():
     'SECRET_KEY': b'afd41e94b269e053cc3f6d065a717cffde51ee5208928463ce897faed531006b',
     'ADMIN_ROLE_ID': 1,
     'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+    'SQLALCHEMY_ECHO': True,
     'UPLOAD_FOLDER': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media', 'images')
     })
     with app.app_context():
@@ -48,9 +48,9 @@ def client():
         )
         db.session.add_all([genre1, genre2, film1, film2])
         #Создаем тестовые просмотренные фильмы
-        films1 = WatchedFilms(id_film=1, id_user=8)
-        films2 = WatchedFilms(id_film=2, id_user=8)
-        db.session.add_all([films1, films2])
+        film1 = WatchedFilms(id_film=1, id_user=8)
+        film2 = WatchedFilms(id_film=2, id_user=8)
+        db.session.add_all([film1, film2])
 
         # Создаем и добавляем кадры для фильма 1
         still1 = Stills(id='s1', id_film=1, name_file='still1')

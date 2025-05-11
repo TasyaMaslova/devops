@@ -4,21 +4,30 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
 from flask import  current_app
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Text, MetaData
-from extensions import db
 
-class Genres(db.Model):
+class Base(DeclarativeBase):
+  metadata = MetaData(naming_convention={
+        "ix": 'ix_%(column_0_label)s',
+        "uq": "uq_%(table_name)s_%(column_0_name)s",
+        "ck": "ck_%(table_name)s_%(constraint_name)s",
+        "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+        "pk": "pk_%(table_name)s"
+    })
+
+db = SQLAlchemy(model_class=Base)
+
+class Genres(Base):
    __tablename__ = 'genres'
-   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name_genre: Mapped[str] = mapped_column(String(128))
 
    films: Mapped[list["Films"]] = relationship(back_populates="genre")
 
-class Users(db.Model,  UserMixin):
+class Users(Base,  UserMixin):
    __tablename__ = 'users'
-   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name: Mapped[str] = mapped_column(String(128))
    lastname: Mapped[str] = mapped_column(String(128))
@@ -40,9 +49,8 @@ class Users(db.Model,  UserMixin):
    def check_password(self, password):
       return check_password_hash(self.password_hash, password)
 
-class Films(db.Model):
+class Films(Base):
    __tablename__ = 'films'
-   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name_film: Mapped[str] = mapped_column(String(128))
    director: Mapped[str] = mapped_column(String(128))
@@ -55,9 +63,8 @@ class Films(db.Model):
    comments: Mapped[list["Comments"]] = relationship(back_populates="film")
    watched_by_users: Mapped[list["WatchedFilms"]] = relationship(back_populates="film")
 
-class WatchedFilms(db.Model):
+class WatchedFilms(Base):
    __tablename__ = 'watched_films'
-   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
    id_user: Mapped[int] = mapped_column(ForeignKey('users.id'))
@@ -65,9 +72,8 @@ class WatchedFilms(db.Model):
    user: Mapped["Users"] = relationship(back_populates="watched_films")
    film: Mapped["Films"] = relationship(back_populates="watched_by_users")
 
-class Comments(db.Model):
+class Comments(Base):
    __tablename__ = 'comments'
-   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
    id_user: Mapped[int] = mapped_column(ForeignKey('users.id'))
@@ -79,18 +85,16 @@ class Comments(db.Model):
    replies: Mapped[List["Comments"]] = relationship("Comments", back_populates="parent", cascade="all, delete-orphan")
    parent: Mapped[Optional["Comments"]] = relationship("Comments", back_populates="replies", remote_side=[id])
 
-class Stills(db.Model):
+class Stills(Base):
    __tablename__ = 'stills'
-   __table_args__ = {'extend_existing': True}
    id: Mapped[str] = mapped_column(String(64), primary_key=True)
    id_film: Mapped[int] = mapped_column(ForeignKey('films.id'))
    name_file: Mapped[str] = mapped_column(String(128))
 
    film: Mapped["Films"] = relationship(back_populates="stills")
 
-class Roles(db.Model):
+class Roles(Base):
    __tablename__ = 'roles'
-   __table_args__ = {'extend_existing': True}
    id: Mapped[int] = mapped_column(primary_key=True)
    name_role: Mapped[int] = mapped_column(String(128))
 
