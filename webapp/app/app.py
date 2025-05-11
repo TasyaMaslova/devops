@@ -16,6 +16,8 @@ from prometheus_flask_exporter import PrometheusMetrics
 def create_app(test_config=None):
 	# app = Flask(__name__)
 	app = Flask(__name__, template_folder='templates')
+	
+	metrics = PrometheusMetrics(app, path='/metrics', export_defaults=True)
 	app.register_blueprint(auth_bp)
 	app.register_blueprint(admin_films_bp)
 	app.register_blueprint(users_bp)
@@ -32,7 +34,7 @@ def create_app(test_config=None):
 	# migrate = Migrate(app, db)
 	
 	
-	metrics = PrometheusMetrics(app, path='/metrics')
+	#metrics = PrometheusMetrics(app, path='/metrics')
 
 	init_login_manager(app)
 
