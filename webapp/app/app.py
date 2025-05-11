@@ -32,7 +32,7 @@ def create_app(test_config=None):
 	# migrate = Migrate(app, db)
 	
 	
-	metrics = PrometheusMetrics(app)
+	metrics = PrometheusMetrics(app, path='/metrics')
 
 	init_login_manager(app)
 
