@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: tasyamaslova/webapp-web:latest
+    image: tasyamaslova/webapp-web:dev
     restart: always 
     ports:
       - "5000:5000"
@@ -12,7 +12,7 @@ services:
       - DATABASE_URL=mysql+mysqlconnector://root:1@db/films2
       
   db:
-    image: tasyamaslova/mysql2:latest 
+    image: tasyamaslova/mysql2:dev
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 1
@@ -21,6 +21,20 @@ services:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
       
 volumes:
   mysql-data:

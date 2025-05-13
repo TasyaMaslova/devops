@@ -4,19 +4,20 @@ from flask_login import current_user, login_required
 from flask_migrate import Migrate
 from sqlalchemy.exc import SQLAlchemyError
 from flask_migrate import Migrate
-from models import db, Films, Genres,Comments, WatchedFilms, Users 
-from auth import bp as auth_bp, init_login_manager
-from admin_films import bp as admin_films_bp
-from users import bp as users_bp
+from app.models import db, Films, Genres,Comments, WatchedFilms, Users 
+from app.auth import bp as auth_bp, init_login_manager
+from app.admin_films import bp as admin_films_bp
+from app.users import bp as users_bp
 import os
 from zipfile import ZipFile
-
-
-from sqlalchemy.exc import SQLAlchemyError
+from prometheus_flask_exporter import PrometheusMetrics
+os.environ['DEBUG_METRICS'] = '1'
 
 def create_app(test_config=None):
 	# app = Flask(__name__)
 	app = Flask(__name__, template_folder='templates')
+	
+	metrics = PrometheusMetrics(app, path='/metrics', export_defaults=True, group_by='endpoint', buckets=(0.1, 0.5, 1, 5, 10))
 	app.register_blueprint(auth_bp)
 	app.register_blueprint(admin_films_bp)
 	app.register_blueprint(users_bp)
@@ -31,6 +32,7 @@ def create_app(test_config=None):
 
 	db.init_app(app)
 	# migrate = Migrate(app, db)
+	
 
 	init_login_manager(app)
 
@@ -116,6 +118,6 @@ def create_app(test_config=None):
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True)
+    app.run(debug=False)
 
 
